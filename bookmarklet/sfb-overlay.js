@@ -153,6 +153,8 @@
     link.onload = callback;
     link.onerror = function () {
       console.error('[Site Feedback] Failed to load CSS: ' + url);
+      // Still proceed — the UI will look unstyled but functional
+      callback();
     };
     document.head.appendChild(link);
   }
@@ -170,18 +172,44 @@
    * 5. Load comments and render UI
    */
   function boot() {
-    // Step 1: Load our CSS
+    console.log('[Site Feedback] Booting... BASE_URL =', BASE_URL);
+
+    // Step 1: Load our CSS (proceed even if it fails)
     loadCSS(BASE_URL + '/bookmarklet/sfb-overlay.css', function () {
-      // Step 2: Load Supabase JS from CDN
-      // Check if it's already loaded (in case of double-init)
-      if (window.supabase && window.supabase.createClient) {
-        initSupabase();
-      } else {
-        loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', function () {
-          initSupabase();
-        });
-      }
+      console.log('[Site Feedback] CSS loaded successfully');
+      loadSupabaseLib();
     });
+
+    // Safety net: if CSS takes more than 3 seconds, proceed anyway.
+    // This handles cases where the CSS file can't be loaded (404, CORS, etc.)
+    setTimeout(function () {
+      if (!supabaseClient) {
+        console.warn('[Site Feedback] CSS load timed out, proceeding without styles');
+        loadSupabaseLib();
+      }
+    }, 3000);
+  }
+
+  /**
+   * Load the Supabase JS library, then initialize.
+   * Separated out so it can be called from boot() or the timeout fallback.
+   */
+  var _supabaseLoading = false;  // Prevent double-loading
+  function loadSupabaseLib() {
+    if (_supabaseLoading) return;
+    _supabaseLoading = true;
+
+    // Check if Supabase JS is already loaded (in case of double-init)
+    if (window.supabase && window.supabase.createClient) {
+      console.log('[Site Feedback] Supabase JS already loaded');
+      initSupabase();
+    } else {
+      console.log('[Site Feedback] Loading Supabase JS from CDN...');
+      loadScript('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2', function () {
+        console.log('[Site Feedback] Supabase JS loaded');
+        initSupabase();
+      });
+    }
   }
 
   /**
