@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Feedback — Sign In</title>
+  <style>
+    /* ── Base reset & layout ── */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #1a1a2e;
+      color: #e0e0e0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .card {
+      background: #16213e;
+      border-radius: 12px;
+      padding: 40px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    h1 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #ffffff;
+    }
+
+    p {
+      font-size: 14px;
+      color: #a0a0b8;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* ── Form ── */
+    .form-group { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      color: #a0a0b8;
+      text-align: left;
+      margin-bottom: 6px;
+    }
+
+    input[type="email"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #2a2a4a;
+      border-radius: 8px;
+      background: #0f0f23;
+      color: #ffffff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="email"]:focus {
+      border-color: #e07a5f;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: #e07a5f;
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover { background: #c9694f; }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    /* ── Status messages ── */
+    .status {
+      margin-top: 16px;
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 8px;
+      display: none;  /* hidden by default, shown by JS */
+    }
+
+    .status.success {
+      display: block;
+      background: rgba(72, 187, 120, 0.15);
+      color: #48bb78;
+    }
+
+    .status.error {
+      display: block;
+      background: rgba(245, 101, 101, 0.15);
+      color: #f56565;
+    }
+
+    .status.info {
+      display: block;
+      background: rgba(224, 122, 95, 0.15);
+      color: #e07a5f;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Site Feedback</h1>
+    <p id="subtitle">Enter your email to receive a sign-in link.</p>
+
+    <!-- Login form — shown when user needs to sign in -->
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" required>
+      </div>
+      <button type="submit" id="submit-btn">Send Magic Link</button>
+    </form>
+
+    <!-- Status messages (success, error, etc.) -->
+    <div id="status" class="status"></div>
+  </div>
+
+  <!-- Load the Supabase JS library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ── Configuration ──
+    // These must match your Supabase project settings.
+    var SUPABASE_URL = 'https://uvodjpfigshthnafkbhg.supabase.co';
+    var SUPABASE_KEY = 'sb_publishable_Ap0XV4ppjbqUFhe5KTj5pA_f-S9mAJZ';
+
+    // ── Initialize Supabase client ──
+    // createClient sets up the connection to your Supabase project.
+    var supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // ── Grab references to HTML elements ──
+    var loginForm = document.getElementById('login-form');
+    var emailInput = document.getElementById('email');
+    var submitBtn = document.getElementById('submit-btn');
+    var statusDiv = document.getElementById('status');
+    var subtitle = document.getElementById('subtitle');
+
+    // ── Helper: show a status message ──
+    function showStatus(message, type) {
+      statusDiv.textContent = message;
+      statusDiv.className = 'status ' + type;  // 'success', 'error', or 'info'
+    }
+
+    // ── Listen for auth state changes ──
+    // When the user clicks a magic link, they are redirected back to this page.
+    // Supabase automatically detects the tokens in the URL and signs the user in.
+    // This listener fires when that happens.
+    supabaseClient.auth.onAuthStateChange(function(event, session) {
+      if (event === 'SIGNED_IN' && session) {
+        // Hide the login form since we're now signed in
+        loginForm.style.display = 'none';
+        subtitle.textContent = '';
+        showStatus('Signed in successfully! You can close this window.', 'success');
+
+        // If this page was opened as a popup from the bookmarklet,
+        // send the session tokens back to the parent page.
+        // "window.opener" refers to the page that opened this popup.
+        if (window.opener) {
+          window.opener.postMessage({
+            type: 'sfb-auth-session',
+            session: {
+              access_token: session.access_token,
+              refresh_token: session.refresh_token,
+              user: {
+                id: session.user.id,
+                email: session.user.email
+              }
+            }
+          }, '*');  // '*' means send to any origin (the bookmarklet runs on any domain)
+        }
+      }
+    });
+
+    // ── Handle login form submission ──
+    loginForm.addEventListener('submit', async function(e) {
+      // Prevent the form from reloading the page
+      e.preventDefault();
+
+      var email = emailInput.value.trim();
+      if (!email) return;
+
+      // Disable the button while we wait for the response
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      // Figure out the redirect URL.
+      // When the user clicks the magic link in their email, they'll be sent back here.
+      var redirectUrl = window.location.origin + window.location.pathname;
+
+      // Call Supabase to send the magic link email.
+      // "signInWithOtp" sends a one-time login link to the user's email.
+      var result = await supabaseClient.auth.signInWithOtp({
+        email: email,
+        options: {
+          emailRedirectTo: redirectUrl
+        }
+      });
+
+      // Re-enable the button
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Magic Link';
+
+      if (result.error) {
+        showStatus('Error: ' + result.error.message, 'error');
+      } else {
+        showStatus('Check your email for the sign-in link!', 'info');
+      }
+    });
+
+    // ── Check if already signed in ──
+    // If the user already has an active session (e.g., they already clicked a magic link),
+    // we skip the login form and just send the session back.
+    (async function checkExistingSession() {
+      var result = await supabaseClient.auth.getSession();
+      if (result.data.session) {
+        var session = result.data.session;
+        loginForm.style.display = 'none';
+        subtitle.textContent = '';
+        showStatus('Already signed in! You can close this window.', 'success');
+
+        if (window.opener) {
+          window.opener.postMessage({
+            type: 'sfb-auth-session',
+            session: {
+              access_token: session.access_token,
+              refresh_token: session.refresh_token,
+              user: {
+                id: session.user.id,
+                email: session.user.email
+              }
+            }
+          }, '*');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

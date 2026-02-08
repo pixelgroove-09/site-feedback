@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Site Feedback — Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+  <!-- ── Login screen (shown when not authenticated) ── -->
+  <div id="auth-screen" class="auth-screen">
+    <div class="auth-card">
+      <h1>Site Feedback</h1>
+      <p>Sign in to view and manage feedback.</p>
+      <form id="auth-form">
+        <label for="auth-email">Email address</label>
+        <input type="email" id="auth-email" placeholder="you@example.com" required>
+        <button type="submit" id="auth-submit">Send Magic Link</button>
+      </form>
+      <div id="auth-status" class="auth-status"></div>
+    </div>
+  </div>
+
+  <!-- ── Dashboard (shown when authenticated) ── -->
+  <div id="dashboard" class="dashboard" style="display:none;">
+
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="dash-header-left">
+        <h1>Site Feedback</h1>
+        <span id="user-info" class="dash-user-info"></span>
+      </div>
+      <div class="dash-header-right">
+        <button id="btn-export" class="dash-btn dash-btn-secondary">Export CSV</button>
+        <button id="btn-refresh" class="dash-btn dash-btn-secondary">Refresh</button>
+        <button id="btn-logout" class="dash-btn dash-btn-ghost">Sign Out</button>
+      </div>
+    </header>
+
+    <!-- Filters -->
+    <div class="dash-filters">
+      <div class="dash-filter-group">
+        <label for="filter-page">Page</label>
+        <select id="filter-page">
+          <option value="">All pages</option>
+        </select>
+      </div>
+      <div class="dash-filter-group">
+        <label for="filter-status">Status</label>
+        <select id="filter-status">
+          <option value="">All</option>
+          <option value="open">Open</option>
+          <option value="resolved">Resolved</option>
+        </select>
+      </div>
+      <div class="dash-filter-group">
+        <label for="filter-reviewer">Reviewer</label>
+        <select id="filter-reviewer">
+          <option value="">All reviewers</option>
+        </select>
+      </div>
+      <div class="dash-filter-stats" id="filter-stats"></div>
+    </div>
+
+    <!-- Comments list (grouped by page) -->
+    <div id="comments-container" class="dash-comments"></div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="dash-empty" style="display:none;">
+      <p>No comments yet.</p>
+      <p class="dash-empty-hint">Use the bookmarklet on a website to start leaving feedback.</p>
+    </div>
+
+    <!-- Loading state -->
+    <div id="loading-state" class="dash-loading">
+      <div class="dash-spinner"></div>
+      <span>Loading comments...</span>
+    </div>
+  </div>
+
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Dashboard logic -->
+  <script src="dashboard.js"></script>
+</body>
+</html>

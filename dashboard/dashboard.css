@@ -1,0 +1,479 @@
+/* ============================================
+   Site Feedback — Admin Dashboard Styles
+   ============================================ */
+
+/* ── Reset ── */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0f0f23;
+  color: #e0e0e0;
+  line-height: 1.5;
+}
+
+/* ============================================
+   AUTH SCREEN
+   ============================================ */
+.auth-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.auth-card {
+  background: #16213e;
+  border-radius: 12px;
+  padding: 40px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.auth-card h1 {
+  font-size: 20px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.auth-card p {
+  font-size: 14px;
+  color: #a0a0b8;
+  margin-bottom: 24px;
+}
+
+.auth-card label {
+  display: block;
+  text-align: left;
+  font-size: 12px;
+  color: #a0a0b8;
+  margin-bottom: 6px;
+  font-weight: 500;
+}
+
+.auth-card input[type="email"] {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #2a2a4a;
+  border-radius: 8px;
+  background: #0f0f23;
+  color: #ffffff;
+  font-size: 14px;
+  outline: none;
+  margin-bottom: 12px;
+}
+
+.auth-card input[type="email"]:focus {
+  border-color: #e07a5f;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #e07a5f;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.auth-card button:hover { background: #c9694f; }
+.auth-card button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.auth-status {
+  margin-top: 12px;
+  font-size: 13px;
+  padding: 8px;
+  border-radius: 6px;
+  display: none;
+}
+
+.auth-status.info {
+  display: block;
+  background: rgba(224, 122, 95, 0.15);
+  color: #e07a5f;
+}
+
+.auth-status.error {
+  display: block;
+  background: rgba(245, 101, 101, 0.15);
+  color: #f56565;
+}
+
+/* ============================================
+   DASHBOARD LAYOUT
+   ============================================ */
+.dashboard {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+/* ── Header ── */
+.dash-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.dash-header h1 {
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.dash-user-info {
+  font-size: 13px;
+  color: #718096;
+  margin-left: 12px;
+}
+
+.dash-header-left {
+  display: flex;
+  align-items: center;
+}
+
+.dash-header-right {
+  display: flex;
+  gap: 8px;
+}
+
+/* ── Buttons ── */
+.dash-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dash-btn-primary {
+  background: #e07a5f;
+  color: #ffffff;
+}
+
+.dash-btn-primary:hover { background: #c9694f; }
+
+.dash-btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: #a0a0b8;
+}
+
+.dash-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.dash-btn-ghost {
+  background: transparent;
+  color: #718096;
+}
+
+.dash-btn-ghost:hover { color: #a0a0b8; }
+
+.dash-btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.dash-btn-resolve {
+  background: rgba(72, 187, 120, 0.2);
+  color: #48bb78;
+}
+
+.dash-btn-resolve:hover { background: rgba(72, 187, 120, 0.3); }
+
+.dash-btn-reopen {
+  background: rgba(236, 201, 75, 0.2);
+  color: #ecc94b;
+}
+
+.dash-btn-reopen:hover { background: rgba(236, 201, 75, 0.3); }
+
+/* ── Filters ── */
+.dash-filters {
+  display: flex;
+  gap: 16px;
+  align-items: flex-end;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.dash-filter-group label {
+  display: block;
+  font-size: 11px;
+  color: #718096;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.dash-filter-group select {
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: #16213e;
+  color: #e0e0e0;
+  font-size: 13px;
+  outline: none;
+  cursor: pointer;
+  min-width: 160px;
+}
+
+.dash-filter-group select:focus {
+  border-color: #e07a5f;
+}
+
+.dash-filter-stats {
+  font-size: 13px;
+  color: #718096;
+  margin-left: auto;
+  padding-bottom: 4px;
+}
+
+/* ============================================
+   COMMENTS LIST
+   ============================================ */
+
+/* ── Page group ── */
+.dash-page-group {
+  margin-bottom: 28px;
+}
+
+.dash-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.dash-page-url {
+  font-size: 14px;
+  font-weight: 600;
+  color: #e07a5f;
+  word-break: break-all;
+}
+
+.dash-page-title {
+  font-size: 12px;
+  color: #718096;
+  margin-left: 10px;
+}
+
+.dash-page-count {
+  font-size: 12px;
+  color: #718096;
+  flex-shrink: 0;
+}
+
+/* ── Comment card ── */
+.dash-comment {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 6px;
+  border-left: 3px solid #e07a5f;
+}
+
+.dash-comment.resolved {
+  border-left-color: #718096;
+  opacity: 0.8;
+}
+
+.dash-comment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.dash-pin-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #e07a5f;
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.dash-pin-num.resolved {
+  background: #718096;
+}
+
+.dash-comment-author {
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.dash-comment-time {
+  font-size: 12px;
+  color: #718096;
+}
+
+.dash-comment-status {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-left: auto;
+}
+
+.dash-comment-status.open {
+  background: rgba(236, 201, 75, 0.2);
+  color: #ecc94b;
+}
+
+.dash-comment-status.resolved {
+  background: rgba(72, 187, 120, 0.2);
+  color: #48bb78;
+}
+
+.dash-comment-text {
+  font-size: 14px;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+/* ── Replies ── */
+.dash-replies {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 10px;
+  margin-top: 6px;
+}
+
+.dash-reply {
+  padding: 6px 0 6px 12px;
+  border-left: 2px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 6px;
+}
+
+.dash-reply-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.dash-reply-time {
+  font-size: 11px;
+  color: #718096;
+  margin-left: 6px;
+}
+
+.dash-reply-text {
+  font-size: 13px;
+  color: #d0d0e0;
+  margin-top: 2px;
+}
+
+/* ── Comment actions ── */
+.dash-comment-actions {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.dash-reply-input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: #0f0f23;
+  color: #ffffff;
+  font-size: 13px;
+  outline: none;
+}
+
+.dash-reply-input:focus {
+  border-color: #e07a5f;
+}
+
+.dash-reply-input::placeholder {
+  color: #718096;
+}
+
+/* ============================================
+   LOADING & EMPTY STATES
+   ============================================ */
+.dash-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 60px 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+@keyframes dash-spin {
+  to { transform: rotate(360deg); }
+}
+
+.dash-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #e07a5f;
+  border-radius: 50%;
+  animation: dash-spin 0.6s linear infinite;
+}
+
+.dash-empty {
+  text-align: center;
+  padding: 60px 0;
+  color: #718096;
+}
+
+.dash-empty p {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.dash-empty-hint {
+  font-size: 13px;
+  color: #4a5568;
+}
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 640px) {
+  .dash-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dash-filters {
+    flex-direction: column;
+  }
+
+  .dash-filter-group select {
+    width: 100%;
+  }
+
+  .dash-filter-stats {
+    margin-left: 0;
+  }
+}

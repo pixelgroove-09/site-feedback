@@ -1,0 +1,511 @@
+/* ============================================
+   Site Feedback Overlay Styles
+   All classes prefixed with "sfb-" to avoid conflicts
+   with the host website's styles.
+   ============================================ */
+
+/* ── Reset: prevent host site styles from leaking in ── */
+#sfb-root,
+#sfb-root *,
+.sfb-pin,
+.sfb-popover,
+.sfb-popover * {
+  all: revert;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.4;
+}
+
+/* ============================================
+   TOOLBAR — fixed bottom-right floating bar
+   ============================================ */
+.sfb-toolbar {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 2147483647 !important;
+  display: flex !important;
+  gap: 8px !important;
+  padding: 8px !important;
+  background: rgba(22, 33, 62, 0.95) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.sfb-toolbar-btn {
+  width: 40px !important;
+  height: 40px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: #a0a0b8 !important;
+  font-size: 18px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background 0.15s, color 0.15s !important;
+}
+
+.sfb-toolbar-btn:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+.sfb-toolbar-btn.sfb-active {
+  background: #e07a5f !important;
+  color: #ffffff !important;
+}
+
+/* ============================================
+   PIN MARKERS — numbered circles on the page
+   ============================================ */
+.sfb-pin {
+  position: absolute !important;
+  z-index: 2147483646 !important;
+  width: 28px !important;
+  height: 28px !important;
+  border-radius: 50% !important;
+  background: #e07a5f !important;
+  color: #ffffff !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  border: 2px solid #ffffff !important;
+  /* Offset so the pin center is at the click point */
+  transform: translate(-50%, -50%) !important;
+  transition: transform 0.15s, box-shadow 0.15s !important;
+  user-select: none !important;
+}
+
+.sfb-pin:hover {
+  transform: translate(-50%, -50%) scale(1.15) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+.sfb-pin.sfb-pin-resolved {
+  background: #718096 !important;
+  opacity: 0.7 !important;
+}
+
+/* ============================================
+   POPOVER — shows comment details on pin click
+   ============================================ */
+.sfb-popover {
+  position: absolute !important;
+  z-index: 2147483647 !important;
+  width: 320px !important;
+  background: rgba(22, 33, 62, 0.97) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  padding: 16px !important;
+  color: #e0e0e0 !important;
+  font-size: 13px !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.sfb-popover-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  margin-bottom: 8px !important;
+}
+
+.sfb-popover-author {
+  font-weight: 600 !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+}
+
+.sfb-popover-time {
+  font-size: 11px !important;
+  color: #718096 !important;
+}
+
+.sfb-popover-text {
+  color: #e0e0e0 !important;
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+  margin-bottom: 12px !important;
+  word-wrap: break-word !important;
+}
+
+.sfb-popover-status {
+  display: inline-block !important;
+  padding: 2px 8px !important;
+  border-radius: 4px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  text-transform: uppercase !important;
+  margin-bottom: 12px !important;
+}
+
+.sfb-popover-status.sfb-status-open {
+  background: rgba(236, 201, 75, 0.2) !important;
+  color: #ecc94b !important;
+}
+
+.sfb-popover-status.sfb-status-resolved {
+  background: rgba(72, 187, 120, 0.2) !important;
+  color: #48bb78 !important;
+}
+
+/* ── Reply thread ── */
+.sfb-replies {
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  padding-top: 10px !important;
+  margin-top: 4px !important;
+}
+
+.sfb-reply {
+  margin-bottom: 10px !important;
+  padding-left: 10px !important;
+  border-left: 2px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.sfb-reply-author {
+  font-weight: 600 !important;
+  font-size: 12px !important;
+  color: #ffffff !important;
+}
+
+.sfb-reply-time {
+  font-size: 11px !important;
+  color: #718096 !important;
+  margin-left: 6px !important;
+}
+
+.sfb-reply-text {
+  font-size: 13px !important;
+  color: #d0d0e0 !important;
+  margin-top: 2px !important;
+  word-wrap: break-word !important;
+}
+
+/* ── Popover actions (reply input, buttons) ── */
+.sfb-popover-actions {
+  display: flex !important;
+  gap: 6px !important;
+  margin-top: 10px !important;
+}
+
+.sfb-reply-input {
+  flex: 1 !important;
+  padding: 8px 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 6px !important;
+  background: rgba(15, 15, 35, 0.8) !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  outline: none !important;
+}
+
+.sfb-reply-input:focus {
+  border-color: #e07a5f !important;
+}
+
+.sfb-reply-input::placeholder {
+  color: #718096 !important;
+}
+
+.sfb-btn {
+  padding: 8px 14px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  transition: background 0.15s !important;
+}
+
+.sfb-btn-primary {
+  background: #e07a5f !important;
+  color: #ffffff !important;
+}
+
+.sfb-btn-primary:hover {
+  background: #c9694f !important;
+}
+
+.sfb-btn-secondary {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #a0a0b8 !important;
+}
+
+.sfb-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.sfb-btn-resolve {
+  background: rgba(72, 187, 120, 0.2) !important;
+  color: #48bb78 !important;
+}
+
+.sfb-btn-resolve:hover {
+  background: rgba(72, 187, 120, 0.3) !important;
+}
+
+.sfb-btn-reopen {
+  background: rgba(236, 201, 75, 0.2) !important;
+  color: #ecc94b !important;
+}
+
+.sfb-btn-reopen:hover {
+  background: rgba(236, 201, 75, 0.3) !important;
+}
+
+/* ============================================
+   NEW COMMENT INPUT — shown when placing a pin
+   ============================================ */
+.sfb-new-comment {
+  position: absolute !important;
+  z-index: 2147483647 !important;
+  width: 300px !important;
+  background: rgba(22, 33, 62, 0.97) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  padding: 14px !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.sfb-new-comment textarea {
+  width: 100% !important;
+  height: 70px !important;
+  padding: 8px 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 6px !important;
+  background: rgba(15, 15, 35, 0.8) !important;
+  color: #ffffff !important;
+  font-size: 13px !important;
+  font-family: inherit !important;
+  resize: vertical !important;
+  outline: none !important;
+}
+
+.sfb-new-comment textarea:focus {
+  border-color: #e07a5f !important;
+}
+
+.sfb-new-comment textarea::placeholder {
+  color: #718096 !important;
+}
+
+.sfb-new-comment-actions {
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 6px !important;
+  margin-top: 8px !important;
+}
+
+/* ============================================
+   SIDEBAR — lists all comments on this page
+   ============================================ */
+.sfb-sidebar {
+  position: fixed !important;
+  top: 0 !important;
+  right: 0 !important;
+  width: 340px !important;
+  height: 100vh !important;
+  z-index: 2147483647 !important;
+  background: rgba(22, 33, 62, 0.98) !important;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4) !important;
+  overflow-y: auto !important;
+  backdrop-filter: blur(8px) !important;
+  transform: translateX(100%) !important;
+  transition: transform 0.25s ease !important;
+}
+
+.sfb-sidebar.sfb-sidebar-open {
+  transform: translateX(0) !important;
+}
+
+.sfb-sidebar-header {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  padding: 16px !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.sfb-sidebar-title {
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+}
+
+.sfb-sidebar-close {
+  width: 28px !important;
+  height: 28px !important;
+  border: none !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+  color: #a0a0b8 !important;
+  font-size: 16px !important;
+  cursor: pointer !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.sfb-sidebar-close:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.sfb-sidebar-list {
+  padding: 8px !important;
+}
+
+.sfb-sidebar-item {
+  display: flex !important;
+  gap: 10px !important;
+  padding: 10px !important;
+  border-radius: 8px !important;
+  cursor: pointer !important;
+  transition: background 0.15s !important;
+  margin-bottom: 4px !important;
+}
+
+.sfb-sidebar-item:hover {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+.sfb-sidebar-pin-num {
+  width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  background: #e07a5f !important;
+  color: #ffffff !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+}
+
+.sfb-sidebar-pin-num.sfb-resolved {
+  background: #718096 !important;
+}
+
+.sfb-sidebar-item-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.sfb-sidebar-item-text {
+  font-size: 13px !important;
+  color: #e0e0e0 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.sfb-sidebar-item-meta {
+  font-size: 11px !important;
+  color: #718096 !important;
+  margin-top: 2px !important;
+}
+
+.sfb-sidebar-empty {
+  text-align: center !important;
+  padding: 40px 16px !important;
+  color: #718096 !important;
+  font-size: 13px !important;
+}
+
+/* ============================================
+   LOGIN OVERLAY — shown when not authenticated
+   ============================================ */
+.sfb-login-overlay {
+  position: fixed !important;
+  bottom: 24px !important;
+  right: 24px !important;
+  z-index: 2147483647 !important;
+  width: 320px !important;
+  background: rgba(22, 33, 62, 0.97) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  padding: 24px !important;
+  backdrop-filter: blur(8px) !important;
+  text-align: center !important;
+}
+
+.sfb-login-title {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  color: #ffffff !important;
+  margin-bottom: 6px !important;
+}
+
+.sfb-login-subtitle {
+  font-size: 12px !important;
+  color: #a0a0b8 !important;
+  margin-bottom: 16px !important;
+}
+
+.sfb-login-btn {
+  width: 100% !important;
+  padding: 10px !important;
+  border: none !important;
+  border-radius: 8px !important;
+  background: #e07a5f !important;
+  color: #ffffff !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  margin-bottom: 8px !important;
+}
+
+.sfb-login-btn:hover {
+  background: #c9694f !important;
+}
+
+.sfb-login-close {
+  background: transparent !important;
+  border: none !important;
+  color: #718096 !important;
+  font-size: 12px !important;
+  cursor: pointer !important;
+}
+
+.sfb-login-close:hover {
+  color: #a0a0b8 !important;
+}
+
+/* ============================================
+   PIN MODE CURSOR — crosshair when active
+   ============================================ */
+.sfb-pin-mode-active {
+  cursor: crosshair !important;
+}
+
+/* ============================================
+   LOADING SPINNER
+   ============================================ */
+.sfb-loading {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 8px !important;
+  color: #a0a0b8 !important;
+  font-size: 12px !important;
+  padding: 12px !important;
+}
+
+@keyframes sfb-spin {
+  to { transform: rotate(360deg); }
+}
+
+.sfb-spinner {
+  width: 16px !important;
+  height: 16px !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
+  border-top-color: #e07a5f !important;
+  border-radius: 50% !important;
+  animation: sfb-spin 0.6s linear infinite !important;
+}
